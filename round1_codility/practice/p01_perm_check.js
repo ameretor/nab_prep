@@ -36,6 +36,17 @@
 
 function solution(A) {
   // YOUR CODE HERE
+  if (A.length === 0) return 0; // empty array is not a permutation
+  if (A.length === 1) return A[0] === 1 ? 1 : 0; // single element must be 1
+
+  const seen = new Set();
+  for (const num of A) {
+    if (num < 1 || num > A.length) return 0; // out of valid range
+    if (seen.has(num)) return 0; // duplicate found
+    seen.add(num);
+  }
+  return 1; // all checks passed, it's a permutation
+
 }
 
 // ─── TESTS (do not modify) ────────────────────────────────────────────────────
