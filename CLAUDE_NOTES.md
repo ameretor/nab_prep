@@ -30,7 +30,11 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 │   ├── 08_fish.js                 ✓
 │   ├── 09_distinct.js             ✓
 │   └── practice/
-│       └── p01_perm_check.js      ✓ USER SOLVED — assessed, pushed
+│       ├── p01_perm_check.js      ✓ USER SOLVED — assessed, pushed
+│       ├── p02_frog_jmp.js        ✓ USER SOLVED — assessed, pushed
+│       ├── p03_count_div.py       ✓ USER SOLVED — assessed, pushed
+│       ├── p04_max_profit.js      ⏳ given, awaiting user solution
+│       └── p05_brackets.js        ⏳ given, awaiting user solution
 └── round2_interview/
     ├── theory.md                  ✓ full React/JS/CSS/architecture Q&A
     └── live_coding/
@@ -51,18 +55,29 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 - Next problem only given AFTER current one is assessed and pushed
 
 ## Practice Progress
-| # | Problem | Codility Lesson | Status |
-|---|---------|----------------|--------|
-| p01 | PermCheck | L4: Counting Elements | ✓ Solved & pushed |
-| p02 | (not given yet) | — | pending |
+| # | Problem | Codility Lesson | Language | Status |
+|---|---------|----------------|----------|--------|
+| p01 | PermCheck | L4: Counting Elements | JS | ✓ Solved & pushed |
+| p02 | FrogJmp | L3: Time Complexity | JS | ✓ Solved & pushed |
+| p03 | CountDiv | L5: Prefix Sums | Python | ✓ Solved & pushed — O(1) formula, perfect |
+| p04 | MaxProfit | L9: Maximum Slice | JS | ⏳ given, awaiting solution |
+| p05 | Brackets | L7: Stacks & Queues | JS | ⏳ given, awaiting solution |
 
-## User's Coding Style (observed from p01)
+## p03 Assessment (CountDiv)
+Solution: `floor(B / K) - floor((A - 1) / K)`
+- Correct O(1) formula — prefix sums concept applied arithmetically
+- Python's `math.floor` handles A=0 cleanly: floor(-1/K) = -1, giving correct +1 for zero
+- All edge cases covered. Score: 100/100.
+
+## User's Coding Style (observed from p01–p03)
 - Writes defensive early-return guards (e.g. empty/single element checks)
 - Uses Set for O(1) membership checks — good instinct
 - Understands range-bounding as a validity check
 - Clean, readable code
+- Can apply mathematical formulas cleanly (p03)
 
-## Next Steps (when user returns tonight)
-1. Give p02 — next practice problem (suggest: FrogJmp or CountDiv, same Easy level)
-2. Continue one-by-one practice → assess → push workflow
-3. After ~5 practice problems, move to Round 2 live coding practice
+## Next Steps
+1. User solves p04 (MaxProfit) and p05 (Brackets) — both high-value for Codility
+2. After both assessed + pushed, consider p06 (Dominator or MinAvgTwoSlice)
+3. After ~6 practice problems, shift focus to Round 2 live coding practice
+4. Study theory.md for Round 2 theory questions
