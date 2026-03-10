@@ -40,6 +40,16 @@
 
 function solution(A) {
     // write your solution here
+    let occurrences = {};
+    const threshold = Math.floor(A.length / 2);
+    for (let i = 0; i < A.length; i++) {
+        const num = A[i];
+        occurrences[num] = (occurrences[num] || 0) + 1;
+        if (occurrences[num] > threshold) {
+            return i; // return the index of the dominator
+        }
+    }   
+    return -1; // no dominator found
 }
 
 // ─── TESTS (uncomment once you have a solution) ───────────────────────────────
