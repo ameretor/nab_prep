@@ -60,8 +60,8 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 | p01 | PermCheck | L4: Counting Elements | JS | ✓ Solved & pushed |
 | p02 | FrogJmp | L3: Time Complexity | JS | ✓ Solved & pushed |
 | p03 | CountDiv | L5: Prefix Sums | Python | ✓ Solved & pushed — O(1) formula, perfect |
-| p04 | MaxProfit | L9: Maximum Slice | JS | ⏳ given, awaiting solution |
-| p05 | Brackets | L7: Stacks & Queues | JS | ⏳ given, awaiting solution |
+| p04 | MaxProfit | L9: Maximum Slice | JS | ✓ Solved & pushed — O(N)/O(1), tracking min, 100/100 |
+| p05 | Brackets | L7: Stacks & Queues | JS | ✓ Solved & pushed — pairs map + stack, 100/100 |
 
 ## p03 Assessment (CountDiv)
 Solution: `floor(B / K) - floor((A - 1) / K)`
@@ -76,8 +76,15 @@ Solution: `floor(B / K) - floor((A - 1) / K)`
 - Clean, readable code
 - Can apply mathematical formulas cleanly (p03)
 
+## p04 Assessment (MaxProfit)
+Solution: track running min, compute `A[i] - min` at each step, keep max.
+- O(N) time, O(1) space. Defensive guard for len < 2. Score: 100/100.
+
+## p05 Assessment (Brackets)
+Solution: pairs map `{')':'(', ...}`, push openers, pop+match closers, return `stack.length === 0`.
+- O(N) time, O(N) space. All edge cases handled cleanly. Score: 100/100.
+
 ## Next Steps
-1. User solves p04 (MaxProfit) and p05 (Brackets) — both high-value for Codility
-2. After both assessed + pushed, consider p06 (Dominator or MinAvgTwoSlice)
-3. After ~6 practice problems, shift focus to Round 2 live coding practice
-4. Study theory.md for Round 2 theory questions
+1. Next: p06 — suggest Dominator (L8: Leader) or MinAvgTwoSlice (L5: Prefix Sums)
+2. After ~6-7 practice problems, shift focus to Round 2 live coding practice
+3. Study theory.md for Round 2 theory questions

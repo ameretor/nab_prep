@@ -36,6 +36,19 @@
 
 function solution(A) {
     // write your solution here
+    if (A.length < 2) return 0;
+    let min = A[0];
+    let maxProfit = 0;
+    for (let i = 1; i < A.length; i++) {
+        if (A[i] < min) {
+            min = A[i];
+        }
+        const profit = A[i] - min;
+        if (profit > maxProfit) {
+            maxProfit = profit;
+        }
+    }
+    return maxProfit;
 }
 
 // ─── TESTS (uncomment once you have a solution) ───────────────────────────────

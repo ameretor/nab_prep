@@ -41,6 +41,26 @@
 
 function solution(S) {
     // write your solution here
+    const pairs = {
+        ')': '(',
+        ']': '[',
+        '}': '{',
+    };
+    
+    const stack = [];
+    for (const char of S) {
+        if (char in pairs) {
+            // char is a closing bracket
+            if (stack.length === 0 || stack[stack.length - 1] !== pairs[char]) {
+                return 0; // no matching opening bracket
+            }
+            stack.pop(); // matched, pop the opening bracket
+        } else {
+            // char is an opening bracket
+            stack.push(char);
+        }
+    }
+    return stack.length === 0 ? 1 : 0; // properly nested if stack is empty
 }
 
 // ─── TESTS (uncomment once you have a solution) ───────────────────────────────
