@@ -63,7 +63,6 @@ function useFetch(url) {
             })
             .then(json => {
                 setData(json);
-                setLoading(false);
             })
             .catch(err => {
                 if (err.name === 'AbortError') {
@@ -71,8 +70,9 @@ function useFetch(url) {
                     return;
                 }
                 setError(err.message);
-                setLoading(false);
-            });
+            })
+            .finally(() => { setLoading(false); });
+        return () => controller.abort(); // Cleanup: abort fetch on unmount or url change
     }, [url]);
 
     return { data, loading, error };

@@ -37,7 +37,15 @@
  */
 
 function throttle(fn, limit) {
-    // write your solution here
+    let lastCall = 0;
+
+    return function (...args) {
+        const now = Date.now();
+        if (now - lastCall >= limit) {
+            lastCall = now;
+            return fn.apply(this, args);
+        }
+    };
 }
 
 // ─── MANUAL TEST ──────────────────────────────────────────────────────────────

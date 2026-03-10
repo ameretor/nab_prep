@@ -56,8 +56,8 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 ## Live Coding Practice Progress
 | # | Topic | Status |
 |---|-------|--------|
-| lc01 | useFetch (custom hook + AbortController) | ⏳ given, awaiting solution |
-| lc02 | throttle from scratch | ⏳ given, awaiting solution |
+| lc01 | useFetch (custom hook + AbortController) | ✓ Solved & pushed — AbortController + finally, 100/100 |
+| lc02 | throttle from scratch | ✓ Solved & pushed — Date.now() closure, 100/100 |
 | lc03 | EventEmitter (pub/sub) | ⏳ given, awaiting solution |
 
 ## Key Assessments
@@ -73,6 +73,6 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 - Strong instinct for edge cases (empty, single element, zero)
 
 ## Next Steps
-1. User solves lc01/lc02/lc03 (live coding practice)
+1. User solves lc03 EventEmitter
 2. After assessed, give more live coding: useMemo-like memoize, retry with backoff, virtual list
 3. Review theory.md for Round 2 theory questions
