@@ -62,6 +62,7 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 | p03 | CountDiv | L5: Prefix Sums | Python | ✓ Solved & pushed — O(1) formula, perfect |
 | p04 | MaxProfit | L9: Maximum Slice | JS | ✓ Solved & pushed — O(N)/O(1), tracking min, 100/100 |
 | p05 | Brackets | L7: Stacks & Queues | JS | ✓ Solved & pushed — pairs map + stack, 100/100 |
+| p06 | Dominator | L8: Leader | JS | ⏳ given, awaiting solution |
 
 ## p03 Assessment (CountDiv)
 Solution: `floor(B / K) - floor((A - 1) / K)`
@@ -85,6 +86,6 @@ Solution: pairs map `{')':'(', ...}`, push openers, pop+match closers, return `s
 - O(N) time, O(N) space. All edge cases handled cleanly. Score: 100/100.
 
 ## Next Steps
-1. Next: p06 — suggest Dominator (L8: Leader) or MinAvgTwoSlice (L5: Prefix Sums)
+1. p06 Dominator given — awaiting user solution
 2. After ~6-7 practice problems, shift focus to Round 2 live coding practice
 3. Study theory.md for Round 2 theory questions
