@@ -212,3 +212,281 @@ Browser security mechanism preventing cross-origin requests unless the server al
 Split a frontend into independently deployable apps, one per team or domain.
 Integration options: iframes, Web Components, **Module Federation** (Webpack 5 / Vite).
 Tradeoffs: independent deployments vs shared state complexity, bundle duplication, and consistency challenges.
+
+---
+
+## React Hooks — Deep Dives (Gap Topics)
+
+### Q: What is a stale closure in useEffect, and how do you fix it?
+
+A stale closure occurs when a function in `useEffect` captures a variable from its outer scope at creation time, and that variable later changes — but the function still holds the old value.
+
+**Classic example:**
+```js
+// ❌ BUG — count is always 0 inside the interval
+useEffect(() => {
+  const id = setInterval(() => {
+    console.log(count); // always 0 — stale closure
+    setCount(count + 1);
+  }, 1000);
+  return () => clearInterval(id);
+}, []); // empty deps → callback created once, captures count=0 forever
+```
+
+**Fix 1 — Functional updater** (for state that only needs its own previous value):
+```js
+setCount(c => c + 1); // doesn't read count from closure
+```
+
+**Fix 2 — useRef** (general fix for any value, not just state):
+```js
+const countRef = useRef(count);
+useEffect(() => { countRef.current = count; }, [count]); // keep ref in sync
+
+useEffect(() => {
+  const id = setInterval(() => {
+    console.log(countRef.current); // always fresh
+  }, 1000);
+  return () => clearInterval(id);
+}, []); // safe — reads from ref, not closure
+```
+
+---
+
+### Q: Why can't useEffect take an async function directly?
+
+```js
+// ❌ WRONG
+useEffect(async () => {
+  const data = await fetch('/api');
+}, []);
+```
+
+`useEffect` expects its callback to return either `undefined` or a cleanup function. An `async` function always returns a `Promise` — React sees a Promise where it expects a function (or nothing) and the cleanup is silently ignored, potentially causing memory leaks.
+
+**Correct pattern:**
+```js
+useEffect(() => {
+  let cancelled = false;
+
+  async function fetchData() {
+    const res = await fetch('/api/data');
+    const json = await res.json();
+    if (!cancelled) setData(json); // guard against unmounted component
+  }
+
+  fetchData();
+  return () => { cancelled = true; }; // cleanup
+}, []);
+```
+
+Or use AbortController (cleaner for fetch specifically — see lc01).
+
+---
+
+### Q: Why does useEffect run twice in development?
+
+In `React.StrictMode`, React deliberately mounts → unmounts → remounts every component in development to help you catch side effects that aren't properly cleaned up.
+
+This means `useEffect` runs twice in dev but **only once in production**. If your code breaks on the double run (e.g., a subscription registered twice), it means your cleanup function is missing or incomplete.
+
+**What to look for:** if the second run causes different behaviour than the first, your effect has a bug.
+
+---
+
+### Q: What is useRef and when do you use it instead of useState?
+
+`useRef` returns a mutable object `{ current: value }` that **persists across renders** but **does not trigger a re-render when changed**.
+
+**Use useRef when:**
+- Accessing a DOM node (`<input ref={myRef} />`)
+- Storing the previous value of a prop/state for comparison
+- Storing interval IDs, timers, or subscription handles (re-rendering would kill them)
+- Fixing stale closures (store the latest version of a callback)
+
+**Use useState when:** the UI needs to reflect the value — a change should cause a re-render.
+
+```js
+// useRef — interval ID doesn't need to be displayed
+const intervalRef = useRef(null);
+intervalRef.current = setInterval(tick, 1000);
+
+// vs useState — would cause a re-render on every setIntervalId() call (wasteful)
+const [intervalId, setIntervalId] = useState(null); // don't do this for IDs
+```
+
+---
+
+### Q: What is useImperativeHandle and when would you use it?
+
+Used with `forwardRef`. Instead of exposing the entire DOM node to the parent via a ref, you expose a **controlled, limited API**.
+
+```jsx
+const TextInput = forwardRef((props, ref) => {
+  const inputRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current.focus(),
+    clear: () => { inputRef.current.value = ''; },
+    getValue: () => inputRef.current.value,
+    // parent cannot access .style, .setAttribute, etc. — encapsulated
+  }));
+
+  return <input ref={inputRef} {...props} />;
+});
+```
+
+**When to use:** in design system components (inputs, modals, sliders) where the parent needs programmatic control but shouldn't reach into the DOM directly.
+
+---
+
+### Q: What do useTransition and useDeferredValue do? (React 18 Concurrent)
+
+Both allow React to prioritize urgent updates over expensive ones.
+
+**useTransition:** marks a state update as non-urgent. React keeps the old UI visible while the new state is computing.
+```js
+const [isPending, startTransition] = useTransition();
+
+startTransition(() => {
+  setSearchResults(compute(bigDataset)); // expensive — not urgent
+});
+// isPending = true while computing → show spinner
+```
+
+**useDeferredValue:** defers re-rendering a specific value. Useful when you don't control the state update (e.g., props from a parent).
+```js
+const deferredQuery = useDeferredValue(query); // query updates immediately; deferredQuery lags behind
+const results = useMemo(() => filter(data, deferredQuery), [deferredQuery]);
+```
+
+**Key difference:**
+- `useTransition` wraps the setter call (you own the state update)
+- `useDeferredValue` wraps the value (you receive it from outside)
+
+---
+
+### Q: What do Error Boundaries catch and NOT catch?
+
+**Catches (during React's render lifecycle):**
+- Errors thrown during render (`throw new Error(...)` inside JSX)
+- Errors in lifecycle methods (`componentDidMount`, `getDerivedStateFromProps`)
+- Errors in constructors of child components
+
+**Does NOT catch:**
+- Async errors (`setTimeout`, `fetch`, Promises)
+- Errors in event handlers (use try/catch + setState manually)
+- Errors in the Error Boundary component itself
+- Server-side rendering errors
+
+**Must be a class component** — no hooks equivalent exists (React 19 adds `use()` but class boundaries remain the standard pattern).
+
+```jsx
+class ErrorBoundary extends Component {
+  state = { hasError: false };
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true }; // triggers fallback render
+  }
+
+  componentDidCatch(error, info) {
+    logToService(error, info.componentStack); // side effects here
+  }
+
+  render() {
+    if (this.state.hasError) return this.props.fallback ?? <h2>Something went wrong.</h2>;
+    return this.props.children;
+  }
+}
+```
+
+---
+
+### Q: What are the Rules of Hooks and why do they exist?
+
+**Rule 1: Only call hooks at the top level** — never inside conditionals, loops, or nested functions.
+**Rule 2: Only call hooks from React functions** — function components or custom hooks. Not regular JS functions.
+
+**Why:** React tracks hooks by call order. On every render, React expects the same hooks to be called in the same order, so it can match each hook to its stored state. A conditional hook would shift the order, corrupting the state map.
+
+```js
+// ❌ Breaks the rules
+if (condition) {
+  const [x, setX] = useState(0); // hook count changes between renders
+}
+
+// ✅ Correct — condition inside the hook
+const [x, setX] = useState(0);
+if (condition) { setX(1); }
+```
+
+---
+
+### Q: Custom hooks — does each call share state or have its own?
+
+**Each call to a custom hook gets completely isolated state.** Custom hooks share logic, not state.
+
+```js
+function useCounter() {
+  const [count, setCount] = useState(0);
+  return { count, increment: () => setCount(c => c + 1) };
+}
+
+function App() {
+  const a = useCounter(); // a.count = 0, independent
+  const b = useCounter(); // b.count = 0, independent — NOT shared with a
+}
+```
+
+To share state across components, you need a shared store (Context, Zustand, Redux) or lift state up to a common ancestor.
+
+---
+
+### Q: React.memo — what does it compare and when does it still re-render?
+
+`React.memo` wraps a function component and does a **shallow comparison** of props between renders. If all props are referentially equal, it skips re-rendering.
+
+**Shallow comparison means:** for primitives (string, number, bool), it compares values. For objects and arrays, it compares **references**, not content.
+
+```js
+const Child = React.memo(({ user, onClick }) => { ... });
+
+// Parent:
+<Child user={{ id: 1 }} onClick={() => handleClick()} />
+// ❌ STILL re-renders every time — new {} object and new () => {} arrow fn each render
+
+<Child user={stableUser} onClick={memoizedClick} />
+// ✅ Skips re-render — same references
+```
+
+**Still re-renders if:**
+- Any prop is a new object/array/function reference (even with the same content)
+- The component uses `useContext` — context bypasses memo
+- You call `forceUpdate()`
+
+**Custom comparator:** `React.memo(Component, (prevProps, nextProps) => prevProps.id === nextProps.id)` — return `true` to skip re-render.
+
+---
+
+### Q: Code splitting with React.lazy + Suspense
+
+```jsx
+// Without code splitting — everything bundled upfront
+import HeavyChart from './HeavyChart';
+
+// With code splitting — HeavyChart loaded only when rendered
+const HeavyChart = React.lazy(() => import('./HeavyChart'));
+
+function Dashboard() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <HeavyChart /> {/* downloaded only now */}
+    </Suspense>
+  );
+}
+```
+
+**How it works:** `React.lazy` takes a function returning a dynamic `import()`. When React renders the lazy component for the first time, it triggers the import, suspends (shows the fallback), and resumes when the chunk loads.
+
+**Best practice:** lazy-load at the **route level** first (biggest wins), then at the component level for heavy things (charts, editors, modals not shown on first paint).
+
