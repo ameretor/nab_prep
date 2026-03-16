@@ -32,10 +32,16 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
     ├── theory.md                  ✓ full React/JS/CSS/architecture Q&A
     └── live_coding/
         ├── 01–07_*.js/jsx         ✓ reference implementations
+        ├── feedback/
+        │   ├── README.md
+        │   ├── lc04_feedback.md
+        │   └── lc05_feedback.md
         └── practice/
-            ├── lc01_use_fetch.jsx     ⏳ given, awaiting solution
-            ├── lc02_throttle.js       ⏳ given, awaiting solution
-            └── lc03_event_emitter.js  ⏳ given, awaiting solution
+            ├── lc01_use_fetch.jsx         ✓ Solved & pushed — 100/100
+            ├── lc02_throttle.js           ✓ Solved & pushed — 100/100
+            ├── lc03_event_emitter.js      ⏳ given, awaiting solution
+            ├── lc04_use_ref_interval.jsx  ✓ Solved & pushed — 90/100
+            └── lc05_memo_callback.jsx     ✓ Fixed & pushed — architecture corrected
 ```
 
 ## Practice Problem Workflow
@@ -59,6 +65,8 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 | lc01 | useFetch (custom hook + AbortController) | ✓ Solved & pushed — AbortController + finally, 100/100 |
 | lc02 | throttle from scratch | ✓ Solved & pushed — Date.now() closure, 100/100 |
 | lc03 | EventEmitter (pub/sub) | ⏳ given, awaiting solution |
+| lc04 | useRef + setInterval stale closure | ✓ Solved & pushed — 90/100, clean approach |
+| lc05 | React.memo + useCallback + useMemo | ✓ Fixed & pushed — architecture was inverted (logic in child instead of parent); corrected |
 
 ## Key Assessments
 - p03 CountDiv: `floor(B/K) - floor((A-1)/K)` — perfect O(1), 100/100
@@ -72,7 +80,11 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 - Clean, minimal, readable
 - Strong instinct for edge cases (empty, single element, zero)
 
+## Key Assessments
+- lc04: Solid — correct useRef for interval ID, functional updater, cleanup. Minor: redundant null guard, arrow wrapper on handleReset.
+- lc05: Architecture inverted — all state/logic placed in child (ProductItem) instead of parent (ProductList). ProductList was missing entirely. Core concepts understood but component boundary confused. Fixed and studied.
+
 ## Next Steps
-1. User solves lc03 EventEmitter
-2. After assessed, give more live coding: useMemo-like memoize, retry with backoff, virtual list
+1. User solves lc03 EventEmitter (still pending)
+2. Continue lc06+ live coding practice
 3. Review theory.md for Round 2 theory questions
