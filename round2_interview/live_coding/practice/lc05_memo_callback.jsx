@@ -90,6 +90,41 @@ const PRODUCTS = [
   { id: 4, name: 'Monitor', price: 399 },
 ];
 
-// YOUR CODE HERE
+// ✓ Dumb presentational component — only re-renders when its own props change
+const ProductItem = memo(function ProductItem({ product, onAddToCart }) {
+  console.log('render:', product.name);
+  return (
+    <div>
+      <span>{product.name} — ${product.price}</span>
+      <button onClick={() => onAddToCart(product.id)}>Add</button>
+    </div>
+  );
+});
+
+function ProductList() {
+  const [search, setSearch] = useState('');
+  const [cart, setCart] = useState([]);
+
+  // ✓ Only recomputes when search changes
+  const filtered = useMemo(() =>
+    PRODUCTS.filter(p => p.name.toLowerCase().includes(search.toLowerCase())),
+    [search]
+  );
+
+  // ✓ Stable reference across renders — won't cause ProductItem to re-render
+  const handleAddToCart = useCallback((id) => {
+    setCart(prev => [...prev, id]);
+  }, []);
+
+  return (
+    <div>
+      <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search..." />
+      <p>Cart: {cart.length} items</p>
+      {filtered.map(p => (
+        <ProductItem key={p.id} product={p} onAddToCart={handleAddToCart} />
+      ))}
+    </div>
+  );
+}
 
 export default ProductList;
