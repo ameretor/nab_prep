@@ -42,7 +42,40 @@
  */
 
 class EventEmitter {
-    // write your solution here
+    // write your solution here 
+    constructor() {
+        this.event = {};
+    }
+
+    on(event, listener) {
+        if (!this.event[event]) {
+            this.event[event] = [];
+        }
+        this.event[event].push(listener);
+    }
+
+    off(event, listener) {
+        if (!this.event[event]) return;
+        const index = this.event[event].indexOf(listener);
+        if (index !== -1) {
+            this.event[event].splice(index, 1)
+        }
+    }
+
+    emit(event, ...args) {
+        if (!this.event[event]) return;
+        this.event[event].forEach((listener) => {
+            listener(...args);
+        });
+    }
+
+    once(event, listener) {
+        const wrapper = (...args) => {
+            listener(...args);
+            this.off(event, wrapper);
+        };
+        this.on(event, wrapper);
+    }
 }
 
 // ─── TESTS ────────────────────────────────────────────────────────────────────

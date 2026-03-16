@@ -14,6 +14,7 @@ Confirmed NAB interview question: *"Why don't microservices share a single datab
 ## Notes
 
 - Refer to `CLAUDE_NOTES.md` for session memory and progress tracking — read this first at the start of each session
+- update claude notes after each progress and after each session, including user progress, coding style, and any insights about the interview process or company culture.
 
 ## Running Code
 

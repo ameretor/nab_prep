@@ -50,29 +50,31 @@ function useFetch(url) {
         const controller = new AbortController();
         const signal = controller.signal;
 
-        setLoading(true);
-        setData(null);
-        setError(null);
+        setLoading(true)
+        setData(null)
+        setError(null)
 
-        fetch(url, { signal })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(json => {
-                setData(json);
-            })
-            .catch(err => {
-                if (err.name === 'AbortError') {
-                    // Fetch was aborted, do not update state
-                    return;
-                }
+        fetch(url, { signal }).then((res) => {
+            if (!res.ok) {
+                throw new Error(`API error: ${res.status}`);
+            }
+            return res.json();
+        }).then((data) => {
+            setData(data);
+            setLoading(false)
+        }).catch((err) => {
+            if (err.name === 'AbortError') {
+                // Fetch was aborted, do not update state
+                return;
+            } else {
                 setError(err.message);
-            })
-            .finally(() => { setLoading(false); });
-        return () => controller.abort(); // Cleanup: abort fetch on unmount or url change
+                setLoading(false);
+            }
+        })
+
+        return () => {
+                controller.abort();
+            }
     }, [url]);
 
     return { data, loading, error };

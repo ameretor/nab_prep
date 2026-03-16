@@ -1,0 +1,111 @@
+<!--
+  LIVE CODING — css05: Pure CSS Loading Spinner
+  Topic: CSS Animations / @keyframes / border-radius
+
+  ── TASK ──────────────────────────────────────────────────────────────────────
+  Build an animated circular loading spinner using only CSS.
+  No images, no JavaScript, no SVG.
+
+  Requirements:
+  - Circle shape, ~48px
+  - Most of the border is grey; one arc is a distinct colour (e.g. indigo)
+  - Rotates continuously and smoothly
+  - Animation should be GPU-accelerated (hint: use transform, not margin/top)
+
+  Visual target:
+         ╭───
+        ╱    ╲         ← grey arc
+       │      │
+        ╲    ╱
+         ───╯           ← coloured arc (rotates)
+
+  ── WHAT TO FILL IN ──────────────────────────────────────────────────────────
+  Fill in the .spinner styles and define the @keyframes animation.
+
+  ── BONUS TASK ────────────────────────────────────────────────────────────────
+  After the basic spinner works:
+  1. Add a second, slower ring around it
+  2. Make it stop spinning when `.spinner` has a `paused` class
+
+  ── FOLLOW-UP QUESTIONS ──────────────────────────────────────────────────────
+  1. Why use `transform: rotate()` instead of animating `margin` or `left`?
+     (Answer relates to reflow vs repaint vs composite layers)
+  2. What does `will-change: transform` do? When should you use it?
+  3. What's the difference between `animation-timing-function: linear` vs `ease`?
+  4. How would you pause the animation when the user prefers reduced motion?
+     (Hint: @media (prefers-reduced-motion: reduce))
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>css05 – CSS Spinner</title>
+  <style>
+    body {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f8fafc;
+      flex-direction: column;
+    }
+
+    label {
+      font-family: sans-serif;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    /* ── YOUR CODE HERE ─────────────────────────────────────────────────────── */
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      /* make it a circle */
+      /* partial border colour */
+      /* animation */
+      border: 4px solid #e2e8f0;
+      /* light grey */
+      border-radius: 50%;
+      border-top-color: #6366f1;
+      /* indigo */
+      animation: spin 1s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes spin {
+
+      /* from → to */
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── BONUS: paused state ────────────────────────────────────────────────── */
+    .spinner.paused {
+      /* pause the animation */
+      animation-play-state: paused;
+    }
+
+    /* ────────────────────────────────────────────────────────────────────────── */
+  </style>
+</head>
+
+<body>
+
+  <div class="spinner"></div>
+  <label>Loading...</label>
+
+  <!-- Bonus: uncomment to test paused state -->
+  <!-- <div class="spinner paused"></div> -->
+  <!-- <label>Paused</label> -->
+
+</body>
+
+</html>

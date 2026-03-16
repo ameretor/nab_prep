@@ -1,0 +1,113 @@
+<!--
+  LIVE CODING — css01: Center a Div (3 Ways)
+  Topic: Flexbox / Grid / Absolute Positioning
+
+  ── TASK ──────────────────────────────────────────────────────────────────────
+  You have a 400×300 parent container and a 100×100 child box.
+  Center the child both horizontally AND vertically — 3 different ways:
+
+    Method 1: Flexbox
+    Method 2: CSS Grid
+    Method 3: Absolute positioning + transform
+
+  Each method has its own .parent-N container already set up below.
+
+  ── WHAT TO FILL IN ──────────────────────────────────────────────────────────
+  Find the three /* YOUR CODE HERE */ comments and write your CSS.
+
+  ── FOLLOW-UP QUESTIONS (be ready to answer) ─────────────────────────────────
+  1. Which method would you use in production, and why?
+  2. Why does `transform: translate(-50%, -50%)` work for centering?
+  3. What's the difference between `justify-content` and `align-items`?
+  4. Does CSS Grid's `place-items: center` work on block elements without a fixed size?
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>css01 – Center a Div</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+
+    h2 {
+      margin-top: 32px;
+      color: #333;
+    }
+
+    /* Shared parent styles — do not modify */
+    .parent {
+      width: 400px;
+      height: 300px;
+      background: #c7d2fe;
+      border: 2px solid #6366f1;
+      position: relative;
+      /* needed for method 3 */
+      margin-bottom: 32px;
+    }
+
+    /* Shared child styles — do not modify */
+    .child {
+      width: 100px;
+      height: 100px;
+      background: #6366f1;
+      color: white;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── METHOD 1: Flexbox ──────────────────────────────────────────────────── */
+    .parent-1 {
+      /* YOUR CODE HERE */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ── METHOD 2: CSS Grid ─────────────────────────────────────────────────── */
+    .parent-2 {
+      /* YOUR CODE HERE */
+      display: grid;
+      place-items: center;
+    }
+
+    /* ── METHOD 3: Absolute + Transform ────────────────────────────────────── */
+    /* parent-3 already has position: relative from .parent above */
+    .parent-3 .child {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* YOUR CODE HERE */
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>css01 — Center a Div (3 Ways)</h1>
+
+  <h2>Method 1: Flexbox</h2>
+  <div class="parent parent-1">
+    <div class="child">Flexbox</div>
+  </div>
+
+  <h2>Method 2: CSS Grid</h2>
+  <div class="parent parent-2">
+    <div class="child">Grid</div>
+  </div>
+
+  <h2>Method 3: Absolute + Transform</h2>
+  <div class="parent parent-3">
+    <div class="child">Absolute</div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!--
+  LIVE CODING — css03: Responsive Card Grid (No Media Queries)
+  Topic: CSS Grid / Intrinsic Sizing
+
+  ── TASK ──────────────────────────────────────────────────────────────────────
+  Build a card grid that is responsive WITHOUT writing any @media queries.
+
+  Requirements:
+  - Cards should be at least 220px wide
+  - As the viewport widens, more columns appear automatically
+  - All cards in a row must be equal height
+  - Cards have a consistent look: image placeholder, title, description, button
+
+  ── WHAT TO FILL IN ──────────────────────────────────────────────────────────
+  Fill in .card-grid and .card styles. The card HTML is already written.
+
+  Hint: look into `repeat(auto-fit, minmax(...))`.
+
+  ── BONUS TASK ────────────────────────────────────────────────────────────────
+  After you get it working, change `auto-fit` to `auto-fill` and resize the
+  browser. What's the difference? When would you prefer each?
+
+  ── FOLLOW-UP QUESTIONS ──────────────────────────────────────────────────────
+  1. What is the difference between auto-fill and auto-fit?
+  2. What does `minmax(220px, 1fr)` mean exactly?
+  3. How would equal card heights work if you used flexbox instead of grid?
+  4. How do you make one card span 2 columns?
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>css03 – Responsive Card Grid</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: sans-serif;
+      padding: 24px;
+      background: #f8fafc;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+      color: #1e293b;
+    }
+
+    /* ── YOUR CODE HERE ─────────────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      gap: 50px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ────────────────────────────────────────────────────────────────────────── */
+
+    /* Internal card styles — do not modify */
+    .card-image {
+      width: 100%;
+      height: 140px;
+      background: #c7d2fe;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6366f1;
+      font-size: 13px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #1e293b;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .card button {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>css03 — Responsive Card Grid</h1>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-image">Image</div>
+      <h3>Card Title One</h3>
+      <p>Short description here.</p>
+      <button>View</button>
+    </div>
+    <div class="card">
+      <div class="card-image">Image</div>
+      <h3>Card Title Two</h3>
+      <p>This card has a much longer description to test equal height behaviour across cards in the same row.</p>
+      <button>View</button>
+    </div>
+    <div class="card">
+      <div class="card-image">Image</div>
+      <h3>Card Title Three</h3>
+      <p>Medium length description here.</p>
+      <button>View</button>
+    </div>
+    <div class="card">
+      <div class="card-image">Image</div>
+      <h3>Card Title Four</h3>
+      <p>Short.</p>
+      <button>View</button>
+    </div>
+    <div class="card">
+      <div class="card-image">Image</div>
+      <h3>Card Title Five</h3>
+      <p>Another medium length description to add variety to the grid layout.</p>
+      <button>View</button>
+    </div>
+    <div class="card">
+      <div class="card-image">Image</div>
+      <h3>Card Title Six</h3>
+      <p>Short description.</p>
+      <button>View</button>
+    </div>
+  </div>
+
+</body>
+
+</html>

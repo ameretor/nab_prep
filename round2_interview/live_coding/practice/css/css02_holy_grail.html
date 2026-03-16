@@ -1,0 +1,191 @@
+<!--
+  LIVE CODING — css02: Holy Grail Layout
+  Topic: CSS Grid / Full-page Layout
+
+  ── TASK ──────────────────────────────────────────────────────────────────────
+  Build the classic "Holy Grail" full-page layout:
+
+    ┌──────────────────────────────┐
+    │           HEADER             │  ← fixed height, always at top
+    ├────────┬─────────────┬───────┤
+    │        │             │       │
+    │  NAV   │    MAIN     │ ASIDE │  ← middle row fills all remaining height
+    │        │  (grows)    │       │
+    ├────────┴─────────────┴───────┤
+    │           FOOTER             │  ← fixed height, always at bottom
+    └──────────────────────────────┘
+
+  Requirements:
+  - Page fills full viewport height (even if content is short)
+  - Header and footer are fixed height (60px)
+  - Nav and aside are fixed width (180px)
+  - Main content column grows to fill remaining space
+  - No hardcoded heights on the middle row
+
+  ── WHAT TO FILL IN ──────────────────────────────────────────────────────────
+  Fill in the CSS for .layout and position the grid areas.
+  The grid-area names on each child are already set.
+
+  ── FOLLOW-UP QUESTIONS ──────────────────────────────────────────────────────
+  1. What does `1fr` mean? Why use it instead of a percentage?
+  2. How does `grid-template-areas` improve readability vs `grid-column/row`?
+  3. How would you make the nav sticky while main content scrolls?
+  4. What's the Flexbox equivalent of this layout?
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>css02 – Holy Grail Layout</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: sans-serif;
+      height: 100vh;
+    }
+
+    /* ── YOUR CODE HERE ─────────────────────────────────────────────────────── */
+    /* Make .layout fill the viewport and define the grid */
+    .layout {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 180px 1fr 180px;
+      grid-template-rows: 60px 1fr 60px;
+      grid-template-areas:
+        "header header header"
+        "nav main aside"
+        "footer footer footer";
+    }
+
+    /* Grid area assignments — do not change these */
+    header {
+      grid-area: header;
+    }
+
+    nav {
+      grid-area: nav;
+    }
+
+    main {
+      grid-area: main;
+    }
+
+    aside {
+      grid-area: aside;
+    }
+
+    footer {
+      grid-area: footer;
+    }
+
+    /* ────────────────────────────────────────────────────────────────────────── */
+
+    /* Visual styling — do not modify */
+    header {
+      background: #6366f1;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    nav {
+      background: #e0e7ff;
+      padding: 16px;
+      position: sticky;
+      top: 0;
+    }
+
+    main {
+      background: white;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    aside {
+      background: #f0fdf4;
+      padding: 16px;
+    }
+
+    footer {
+      background: #1e1b4b;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+    <header>Header</header>
+    <nav>
+      <p>Nav link 1</p>
+      <p>Nav link 2</p>
+      <p>Nav link 3</p>
+    </nav>
+    <main>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+      <h1>Main Content</h1>
+      <p>This area grows to fill all remaining space. The layout should hold even if the page is empty.</p>
+
+    </main>
+    <aside>
+      <p>Sidebar</p>
+      <p>Widget</p>
+    </aside>
+    <footer>Footer</footer>
+  </div>
+
+</body>
+
+</html>

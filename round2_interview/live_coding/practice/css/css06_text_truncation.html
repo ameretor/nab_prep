@@ -1,0 +1,159 @@
+<!--
+  LIVE CODING — css06: Text Truncation
+  Topic: overflow / white-space / line-clamp
+
+  ── TASK ──────────────────────────────────────────────────────────────────────
+  Implement two types of text truncation inside a fixed-width card:
+
+  Part A — Single-line truncation:
+    The card title must NOT wrap. If it's too long, show "..." at the end.
+    Example: "This is a very long title that should be tru..."
+
+  Part B — Multi-line truncation:
+    The description should show a maximum of 3 lines, with "..." at the end
+    of line 3 if the text overflows.
+
+  ── WHAT TO FILL IN ──────────────────────────────────────────────────────────
+  Fill in the two /* YOUR CODE HERE */ blocks.
+  Do NOT change the card width or the text content.
+
+  ── FOLLOW-UP QUESTIONS ──────────────────────────────────────────────────────
+  1. Why do you need BOTH `overflow: hidden` AND `white-space: nowrap`
+     AND `text-overflow: ellipsis` for single-line? What happens if you remove one?
+  2. `-webkit-line-clamp` has a `-webkit-` prefix — is it safe to use in production?
+  3. What does `display: -webkit-box` do? Why is it required for line-clamp?
+  4. How would you show a "Read more" button after the clamp without JavaScript?
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>css06 – Text Truncation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: sans-serif;
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      padding: 40px;
+      background: #f8fafc;
+      flex-wrap: wrap;
+    }
+
+    /* Card container — do not modify */
+    .card {
+      width: 260px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+    }
+
+    .card h2 {
+      font-size: 16px;
+      color: #1e293b;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: bold;
+      background: #e0e7ff;
+      color: #6366f1;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    /* ── PART A: Single-line truncation ──────────────────────────────────────── */
+    .truncate-single {
+      /* YOUR CODE HERE */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── PART B: Multi-line clamp to 3 lines ─────────────────────────────────── */
+    .truncate-multi {
+      /* YOUR CODE HERE */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      white-space: normal;
+    }
+
+    .read-more-toggle {
+      display: none;
+    }
+
+    /* When checkbox is checked, remove the clamp */
+    .read-more-toggle:checked~.description.clamped {
+      -webkit-line-clamp: unset;
+      overflow: visible;
+    }
+
+    /* Hide the button after expanding */
+    .read-more-toggle:checked~.read-more-btn {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Card 1: single-line truncation on title -->
+  <div class="card">
+    <span class="tag">Part A — Single Line</span>
+    <h2 class="truncate-single">
+      This Is A Very Long Card Title That Should Not Wrap To A Second Line
+    </h2>
+    <p>The title above should truncate with ellipsis on one line.</p>
+  </div>
+
+  <!-- Card 2: multi-line clamp on description -->
+  <div class="card">
+    <span class="tag">Part B — Multi Line</span>
+    <h2>Card Title</h2>
+    <p class="truncate-multi">
+      This description is intentionally very long to demonstrate multi-line
+      truncation. It goes on and on, talking about all sorts of things that
+      are not particularly interesting, but serve the purpose of filling up
+      more than three lines of text inside this fixed-width card container.
+    </p>
+    <input type="checkbox" id="toggle1" class="read-more-toggle">
+    <label for="toggle1" class="read-more-btn">Read more</label>
+  </div>
+
+  <!-- Card 3: no truncation (reference) -->
+  <div class="card">
+    <span class="tag">Reference (no clamp)</span>
+    <h2>Card Title</h2>
+    <p>
+      This description is intentionally very long to demonstrate multi-line
+      truncation. It goes on and on, talking about all sorts of things that
+      are not particularly interesting, but serve the purpose of filling up
+      more than three lines of text inside this fixed-width card container.
+    </p>
+    <input type="checkbox" id="toggle1" class="read-more-toggle">
+    <label for="toggle1" class="read-more-btn">Read more</label>
+  </div>
+
+</body>
+
+</html>

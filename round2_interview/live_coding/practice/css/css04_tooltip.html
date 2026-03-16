@@ -1,0 +1,119 @@
+<!--
+  LIVE CODING — css04: CSS-Only Tooltip
+  Topic: Pseudo-elements / Positioning / Hover
+
+  ── TASK ──────────────────────────────────────────────────────────────────────
+  Build a tooltip that appears above a button on hover. No JavaScript.
+
+  Requirements:
+  - Tooltip appears ABOVE the button on hover
+  - Tooltip has a small downward-pointing triangle caret at its bottom
+  - Tooltip is hidden by default, visible on hover
+  - Smooth fade-in on hover (opacity transition)
+
+  Visual target:
+        ┌─────────────────┐
+        │  Tooltip text   │
+        └────────▼────────┘
+           [ Hover me ]
+
+  ── WHAT TO FILL IN ──────────────────────────────────────────────────────────
+  Fill in the .tooltip-wrapper, .tooltip, and .tooltip::after styles.
+  The HTML structure is already written.
+
+  Hints:
+  - The caret triangle is made using the CSS border trick on ::after
+  - You'll need position: relative on the wrapper and position: absolute on the tooltip
+  - `transform: translateX(-50%)` centers the tooltip horizontally
+
+  ── FOLLOW-UP QUESTIONS ──────────────────────────────────────────────────────
+  1. How does the CSS border triangle trick work?
+  2. Why do we use ::after instead of a real HTML element for the caret?
+  3. How would you make the tooltip appear to the right instead of above?
+  4. What accessibility concerns does a CSS-only tooltip have?
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>css04 – CSS Tooltip</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f8fafc;
+    }
+
+    /* Button styling — do not modify */
+    .btn {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    /* ── YOUR CODE HERE ─────────────────────────────────────────────────────── */
+
+    /* Wrapper — needs to be the positioning context */
+    .tooltip-wrapper {
+      position: relative;
+      display: inline-block;
+      /* hug the button so bottom: 100% is relative to button height */
+    }
+
+    /* The tooltip box */
+    .tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      /* above the button; +10px gap for the caret */
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+      background: #333;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    /* Show tooltip on hover */
+    .tooltip-wrapper:hover .tooltip {
+      opacity: 1;
+    }
+
+    /* The downward-pointing triangle caret */
+    .tooltip::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      /* full border height: 5px top + 5px bottom = 10px */
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #333;
+    }
+
+    /* ────────────────────────────────────────────────────────────────────────── */
+  </style>
+</head>
+
+<body>
+
+  <div class="tooltip-wrapper">
+    <button class="btn">Hover me</button>
+    <div class="tooltip">This is a tooltip message</div>
+  </div>
+
+</body>
+
+</html>
