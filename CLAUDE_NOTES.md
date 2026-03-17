@@ -84,7 +84,23 @@ GitHub repo: https://github.com/ameretor/nab_prep.git (branch: main)
 - lc04: Solid — correct useRef for interval ID, functional updater, cleanup. Minor: redundant null guard, arrow wrapper on handleReset.
 - lc05: Architecture inverted — all state/logic placed in child (ProductItem) instead of parent (ProductList). ProductList was missing entirely. Core concepts understood but component boundary confused. Fixed and studied.
 
+## Topics Prep Folder (NEW — 2026-03-17)
+Comprehensive interview prep for Round 2 theory topics added at `topics/`:
+- 01_agile_scrum — Scrum roles, ceremonies, DoD vs AC, Q&A
+- 02_web_dev/01_critical_rendering_path — CRP 6 steps, blocking resources, Core Web Vitals, optimization checklist
+- 02_web_dev/02_accessibility — WCAG, accessibility tree, ARIA rules, focus management, testing
+- 02_web_dev/03_web_optimization — Metrics, bundle optimization, image optimization, rendering strategies
+- 03_html5 — Semantic elements, Web Workers, storage comparison, security
+- 04_javascript — Event loop, closures, this binding, Promises, debounce/throttle
+- 05_reactjs — Reconciliation, hooks deep dive, Context perf, React 18, code splitting
+- 06_unit_testing — Testing pyramid, RTL philosophy, hook testing, mocking patterns
+- 07_microfrontend — Integration strategies, Module Federation, cross-MFE communication
+- 08_bff — BFF vs API Gateway vs GraphQL, confirmed NAB question answer (microservices DB)
+
+Each topic has: theory.md (with model interview answers) + practice exercises.
+
 ## Next Steps
 1. User solves lc03 EventEmitter (still pending)
-2. Continue lc06+ live coding practice
-3. Review theory.md for Round 2 theory questions
+2. Study topics/ in this order: 05_reactjs → 04_javascript → 02_web_dev → 06_unit_testing → 07_microfrontend → rest
+3. Work through practice exercises in topics/04_javascript/practice/ and topics/05_reactjs/practice/
+4. Continue lc06+ live coding practice

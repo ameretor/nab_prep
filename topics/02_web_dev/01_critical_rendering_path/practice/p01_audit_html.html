@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+  ─── CRP Practice p01: Audit This HTML ─────────────────────────────────────
+
+  TASK: Find all the Critical Rendering Path problems in this HTML.
+  There are at least 7 issues. List them below, then see the annotated version.
+
+  YOUR FINDINGS:
+  1.
+  2.
+  3.
+  4.
+  5.
+  6.
+  7.
+
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<html>
+<head>
+  <!-- No charset or viewport meta tags -->
+
+  <!-- All CSS loaded synchronously — including print stylesheet -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/print.css">
+  <link rel="stylesheet" href="/css/animations.css">
+
+  <!-- Blocking scripts in <head> -->
+  <script src="/js/analytics.js"></script>
+  <script src="/js/chat-widget.js"></script>
+  <script src="/js/app.js"></script>
+
+  <title>NAB Banking Dashboard</title>
+</head>
+<body>
+  <header>
+    <img src="/logo.png" alt="NAB Logo">
+  </header>
+
+  <main>
+    <!-- Hero image — this is the LCP element -->
+    <img src="/hero-banner.jpg" alt="Banking dashboard hero" loading="lazy">
+
+    <!-- Product images without dimensions -->
+    <img src="/product-1.jpg" alt="Personal loan">
+    <img src="/product-2.jpg" alt="Credit card">
+    <img src="/product-3.jpg" alt="Home loan">
+  </main>
+
+  <!-- No resource hints for third-party fonts origin -->
+</body>
+</html>
+
+<!--
+  ─── ANSWERS (read after attempting) ────────────────────────────────────────
+
+  1. No <meta charset="UTF-8"> — browser delays rendering while guessing encoding
+  2. No <meta name="viewport"> — causes mobile rendering issues
+  3. Google Fonts loaded without preconnect — wastes time on DNS + TLS handshake
+  4. print.css loaded blocking — should use media="print" to make non-blocking
+  5. animations.css could be deferred if not above-fold
+  6. analytics.js and chat-widget.js in <head> without async/defer — block parsing
+  7. app.js in <head> without defer — blocks HTML parsing
+  8. Hero image (LCP element) has loading="lazy" — this delays LCP significantly
+  9. Product images have no width/height — causes Cumulative Layout Shift (CLS)
+  10. No <link rel="preconnect"> for fonts.googleapis.com
+  11. No <link rel="preload"> for hero image (should start loading ASAP)
+
+  ─── OPTIMIZED VERSION ───────────────────────────────────────────────────────
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NAB Banking Dashboard</title>
+
+    // Preconnect for third-party origins
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    // Preload critical resources
+    <link rel="preload" href="/hero-banner.jpg" as="image" fetchpriority="high">
+    <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+
+    // Critical CSS inline (above-fold only)
+    <style>/* critical above-fold CSS inlined here */</style>
+
+    // Non-critical CSS deferred
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/print.css" media="print">
+    <link rel="preload" href="/css/animations.css" as="style" onload="this.rel='stylesheet'">
+
+    // Scripts with defer (don't block parsing)
+    <script defer src="/js/app.js"></script>
+    <script async src="/js/analytics.js"></script>
+    <script async src="/js/chat-widget.js"></script>
+  </head>
+
+  <body>
+    <main>
+      // LCP image: NOT lazy loaded, has fetchpriority, explicit dimensions
+      <img
+        src="/hero-banner.jpg"
+        alt="Banking dashboard hero"
+        width="1200" height="600"
+        fetchpriority="high"
+      >
+
+      // Below-fold images: lazy loaded, explicit dimensions to prevent CLS
+      <img src="/product-1.jpg" alt="Personal loan" width="400" height="300" loading="lazy">
+      <img src="/product-2.jpg" alt="Credit card" width="400" height="300" loading="lazy">
+      <img src="/product-3.jpg" alt="Home loan" width="400" height="300" loading="lazy">
+    </main>
+  </body>
+-->

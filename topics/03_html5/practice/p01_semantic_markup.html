@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+  ─── HTML5 Practice p01: Rewrite with Semantic Markup ───────────────────────
+
+  TASK: The markup below uses only <div> and <span>.
+  Rewrite it using appropriate HTML5 semantic elements.
+  Also fix the accessibility issues.
+
+  There are at least 10 improvements to make.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<!-- ─── BAD VERSION (div soup) ─────────────────────────────────────── -->
+<div class="page">
+  <div class="top">
+    <div class="logo"><img src="/nab-logo.png"></div>
+    <div class="links">
+      <span onclick="goTo('/')">Home</span>
+      <span onclick="goTo('/accounts')">Accounts</span>
+      <span onclick="goTo('/payments')">Payments</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="sidebar">
+      <div class="menu">
+        <span onclick="goTo('/overview')">Overview</span>
+        <span onclick="goTo('/history')">Transaction History</span>
+      </div>
+    </div>
+
+    <div class="main-area">
+      <div class="big-title">My Accounts</div>
+
+      <div class="account">
+        <div class="account-name">Everyday Account</div>
+        <div class="balance">$2,450.00</div>
+        <div class="date">Last updated: 15 Mar 2026</div>
+        <div class="action" onclick="transfer()">Transfer</div>
+        <div class="action" onclick="viewHistory()">View History</div>
+      </div>
+
+      <div class="article-block">
+        <div class="article-title">Understanding Your Interest Rate</div>
+        <div class="article-text">Your savings account earns...</div>
+        <div class="article-image">
+          <img src="/interest-chart.png">
+          <div class="caption">Interest rate trends</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="copyright">© 2026 NAB</div>
+    <div class="legal-links">
+      <span>Privacy Policy</span>
+      <span>Terms of Service</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!-- YOUR REWRITE BELOW — use: header, nav, main, aside, section, article, -->
+<!-- footer, h1-h6, button, a, figure, figcaption, time               -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+
+
+
+
+<!-- ─── MODEL ANSWER (read after attempting) ────────────────────────── -->
+<!--
+<body>
+  <header>
+    <img src="/nab-logo.png" alt="NAB logo">
+    <nav aria-label="Primary navigation">
+      <a href="/">Home</a>
+      <a href="/accounts">Accounts</a>
+      <a href="/payments">Payments</a>
+    </nav>
+  </header>
+
+  <div style="display: flex">
+    <aside aria-label="Account navigation">
+      <nav>
+        <a href="/overview">Overview</a>
+        <a href="/history">Transaction History</a>
+      </nav>
+    </aside>
+
+    <main>
+      <h1>My Accounts</h1>
+
+      <section aria-labelledby="everyday-account-title">
+        <h2 id="everyday-account-title">Everyday Account</h2>
+        <p>Balance: <strong>$2,450.00</strong></p>
+        <time datetime="2026-03-15">Last updated: 15 Mar 2026</time>
+        <button type="button" onclick="transfer()">Transfer</button>
+        <a href="/history">View History</a>
+      </section>
+
+      <article>
+        <h2>Understanding Your Interest Rate</h2>
+        <p>Your savings account earns...</p>
+        <figure>
+          <img src="/interest-chart.png" alt="Chart showing interest rate trends over 12 months">
+          <figcaption>Interest rate trends</figcaption>
+        </figure>
+      </article>
+    </main>
+  </div>
+
+  <footer>
+    <p><small>© 2026 NAB</small></p>
+    <nav aria-label="Legal links">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+    </nav>
+  </footer>
+</body>
+
+IMPROVEMENTS MADE:
+1. <header> instead of div.top
+2. <nav> with aria-label for primary navigation
+3. <a href> instead of <span onclick> (keyboard accessible, correct role)
+4. <aside> with aria-label for sidebar
+5. <main> for main content area
+6. <h1> for page title
+7. <section> with aria-labelledby for account card
+8. <h2> for section heading
+9. <time datetime="..."> for machine-readable date
+10. <button> for actions (keyboard accessible) or <a href> for navigation
+11. <article> for self-contained editorial content
+12. <figure> + <figcaption> for image with caption
+13. Alt text on all images
+-->
